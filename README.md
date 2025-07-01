@@ -1,153 +1,120 @@
-# COBOL on Wheelchair
+# COBOL on Wheelchair 🦿
 
-A micro web-framework for COBOL that proves old dogs can learn new tricks! 🦿
+> A modern web framework that brings COBOL into the 21st century
 
-## Features
+COBOL on Wheelchair (CoW) combines the reliability of COBOL with modern web development practices. It features a Node.js-based server, hot reloading, and a powerful template engine.
 
-- **Modern Server Architecture**
-  - Node.js-based server with hot reloading
-  - Development mode with automatic COBOL compilation
-  - Static file serving
-  - Production-ready deployment options
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/azac/cobol-on-wheelchair/pulls)
 
-- **Routing System**
-  - Path-based routing with variable support (`/user/%id`)
-  - HTTP method support (GET, POST, PUT, PATCH, DELETE)
-  - Method-specific route handling
-
-- **Request Handling**
-  - Path variables extraction
-  - Query string parsing (`?key=value`)
-  - Form data processing (POST/PUT/PATCH)
-  - URL-decoded parameter support
-
-- **Template Engine**
-  - Conditional rendering (`{{#if}}`)
-  - Loop support (`{{#each}}`)
-  - Variable substitution (`{{variable}}`)
-  - HTML escaping for security
-  - Array support
-  - Clean separation of logic and presentation
-
-## Prerequisites
-
-### Linux/macOS
-* [GNU Cobol](https://sourceforge.net/projects/open-cobol/) (`sudo apt-get install open-cobol`)
-* Node.js 18 or higher
-* Basic understanding of COBOL (or a sense of adventure!)
-
-### Windows
-* [GnuCOBOL for Windows](https://sourceforge.net/projects/gnucobol/files/gnucobol/)
-  - Download and run the installer (e.g., `GnuCOBOL-3.1.2-64bit-MinGW-setup.exe`)
-  - Add GnuCOBOL's bin directory to your PATH (usually `C:\GnuCOBOL\bin`)
-* Node.js 18 or higher from [nodejs.org](https://nodejs.org/)
-* Windows Terminal or PowerShell
-* Docker Desktop (optional, for containerized setup)
-
-## Installation
-
-### Standard Installation
+## Quick Start
 
 ```bash
-# Clone the repository
+# Install GnuCOBOL first (see Prerequisites below)
+
+# Get the code
 git clone https://github.com/azac/cobol-on-wheelchair/
 cd cobol-on-wheelchair
 
-# Install dependencies and compile
+# Install and run
 npm install
-npm run build
-
-# Start development server with hot reload
 npm run dev
 
-# OR start production server
-npm start
-
-# The application will be available at http://localhost:3000
+# Visit http://localhost:3000 🚀
 ```
 
-### Docker Installation
+## Features
 
-The framework includes Docker support for easy setup and deployment:
-
-```bash
-# Ensure Docker Desktop is running first!
-
-# Build the Docker image
-docker build -t cobol-on-wheelchair .
-
-# Run the container
-docker run -p 3000:3000 cobol-on-wheelchair
-
-# For development with hot reload and local file mounting
-# On Windows PowerShell:
-docker run -p 3000:3000 -v ${PWD}:/app cobol-on-wheelchair npm run dev
-# On Windows CMD:
-docker run -p 3000:3000 -v %cd%:/app cobol-on-wheelchair npm run dev
-# On Linux/macOS:
-docker run -p 3000:3000 -v $(pwd):/app cobol-on-wheelchair npm run dev
-```
-
-## Development Features
-
+### 🚀 Modern Development Experience
 - Hot reloading of COBOL files
-- Automatic recompilation on changes
-- Development server with live feedback
-- Static file serving from `public` directory
-- Comprehensive error reporting
+- Automatic recompilation
+- Node.js-based server
+- Docker support
+- Static file serving
+
+### 🛣️ Powerful Routing
+- Path variables (`/user/%id`)
+- Full HTTP method support
+- Query string parsing
+- Form data handling
+
+### 🎨 Template Engine
+- Conditional rendering (`{{#if}}`)
+- Loops (`{{#each}}`)
+- HTML escaping
+- Array support
+- Clean syntax
+
+## Prerequisites
+
+### Windows
+1. Install [GnuCOBOL](https://sourceforge.net/projects/gnucobol/files/gnucobol/)
+   ```powershell
+   # Add to PATH (usually):
+   C:\GnuCOBOL\bin
+   ```
+2. Install [Node.js](https://nodejs.org/) (v18+)
+3. Optional: Docker Desktop
+
+### Linux/macOS
+```bash
+# Ubuntu/Debian
+sudo apt-get install open-cobol
+
+# macOS
+brew install gnu-cobol
+
+# Then install Node.js v18+
+```
 
 ## Project Structure
 
 ```
-/
-├── controllers/    # COBOL logic for handling requests
-├── engine/        # Template engine components
-│   ├── cowtemplate.cbl     # Basic template engine
-│   └── cowtemplateplus.cbl # Enhanced template engine with conditionals and loops
-├── views/         # Template files (.cow extension)
-├── config.cbl     # Route definitions
-├── cow.cbl        # Core framework
-├── httphandler.cbl # HTTP request handler
-├── server.js      # Node.js server
-├── package.json   # Node.js dependencies and scripts
-└── Dockerfile     # Docker configuration
+cobol-on-wheelchair/
+├── src/                # Source code
+│   ├── core/          # Framework core
+│   ├── templates/     # Template engine
+│   ├── controllers/   # Request handlers
+│   └── views/         # Templates
+├── public/            # Static files
+├── bin/              # Compiled output
+└── server.js         # Node.js server
 ```
 
-## Troubleshooting
+## Development
 
-### Common Issues
+### Local Development
+```bash
+# Start dev server with hot reload
+npm run dev
 
-1. **COBOL Compiler Not Found**
-   - **Windows**: Ensure GnuCOBOL is installed and added to PATH
-   - **Linux**: Install with `sudo apt-get install open-cobol`
-   - **macOS**: Install with Homebrew: `brew install gnu-cobol`
+# Build only
+npm run build
 
-2. **Build Fails**
-   - Check if `cobc` is available in your terminal/command prompt
-   - Ensure all .cbl files are in their correct directories
-   - Try running `npm run clean` before `npm run build`
+# Production
+npm start
+```
 
-3. **Docker Issues**
-   - Ensure Docker Desktop is running
-   - On Windows, use PowerShell or CMD with correct volume mount syntax
-   - Check Docker Desktop settings if volume mounting fails
+### Docker Development
+```bash
+# Build
+docker build -t cobol-on-wheelchair .
 
-4. **Server Won't Start**
-   - Verify Node.js version (18+ required)
-   - Check if port 3000 is available
-   - Ensure COBOL compilation succeeded
-   - Look for the compiled `the.cow` binary
+# Run with hot reload
+docker run -p 3000:3000 -v ${PWD}:/app cobol-on-wheelchair npm run dev
+```
 
-## Quick Start
+## Creating Routes
 
-1. Define a route in `config.cbl`:
+1. Define route in `src/core/config.cbl`:
 ```cobol
-move "/hello/%name"    to routing-pattern(1).
-move "GET"             to routing-method(1).
-move "sayhello"        to routing-destiny(1).
+move "/hello/%name" to routing-pattern(1).
+move "GET"          to routing-method(1).
+move "sayhello"     to routing-destiny(1).
 ```
 
-2. Create a controller in `controllers/sayhello.cbl`:
+2. Create controller in `src/controllers/sayhello.cbl`:
 ```cobol
 identification division.
 program-id. sayhello.
@@ -160,77 +127,61 @@ working-storage section.
       05 COW-varvalue   pic x(99).
       05 COW-var-type   pic x(1).
 
-linkage section.
-01 path-values.
-   05 path-query-values occurs 10 times.
-      10 path-query-value-name  pic x(90).
-      10 path-query-value       pic x(90).
-
 procedure division using path-values.
     move "username" to COW-varname(1).
     move path-query-value(1) to COW-varvalue(1).
     move "S" to COW-var-type(1).
-    
     call 'cowtemplateplus' using the-vars "hello.cow".
     goback.
 end program sayhello.
 ```
 
-3. Create a template in `views/hello.cow`:
+3. Create template in `src/views/hello.cow`:
 ```html
 <html>
-    <body>
-        <h1>Hello, {{username}}!</h1>
-    </body>
+  <body>
+    <h1>Hello, {{username}}!</h1>
+  </body>
 </html>
 ```
 
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `cobc: command not found` | Ensure GnuCOBOL is installed and in PATH |
+| Build fails | Run `npm run clean && npm run build` |
+| Docker issues | Check Docker Desktop is running |
+| Port in use | Change port in server.js or stop other services |
+
 ## Examples
 
-The framework includes several examples:
-- Basic routing (`/`)
-- Path variables (`/showname/Adrian`)
-- Calculator with path params (`/showsum/22/11`)
-- Form handling with POST (`/form`)
-- Advanced template features (`/advanced`)
+- Basic routing: `/`
+- Path variables: `/showname/Adrian`
+- Calculator: `/showsum/22/11`
+- Form handling: `/form`
+- Advanced templates: `/advanced`
 
-## Security Features
+## Documentation
 
-- Automatic HTML escaping in templates
-- Request validation
-- Secure static file serving
-- Production-ready server configuration
-
-While this is still primarily an educational framework, security best practices are followed where possible.
+- [Public Assets](public/README.md)
+- [Binary Output](bin/README.md)
+- [Tutorial](public/tutorial/index.md)
 
 ## Contributing
 
-Feel free to submit issues, fork the repository, and create pull requests for any improvements.
+1. Fork it
+2. Create your feature branch (`git checkout -b feature/amazing`)
+3. Commit your changes (`git commit -am 'Add something amazing'`)
+4. Push to the branch (`git push origin feature/amazing`)
+5. Create a Pull Request
 
-## Questions?
+## Support
 
-Contact: adrian.zandberg@gmail.com
+- 📫 Email: adrian.zandberg@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/azac/cobol-on-wheelchair/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/azac/cobol-on-wheelchair/discussions)
 
 ## License
 
-MIT License
-
-Copyright (c) 2024 Adrian Zandberg
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+MIT © [Adrian Zandberg](LICENSE)

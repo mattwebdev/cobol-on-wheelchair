@@ -1,32 +1,33 @@
-# Build stage
-FROM ubuntu:22.04 AS builder
-WORKDIR /cow
-RUN apt-get update && apt-get install -qy open-cobol
-COPY . /cow
-RUN ./downhill.sh
-
-# Runtime stage
 FROM node:18-slim
+
+# Install GnuCOBOL and clean up
+RUN apt-get update && \
+    apt-get install -y gnucobol && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create app directory
 WORKDIR /app
 
-# Install COBOL runtime
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libcob4 \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy Node.js files
+# Copy package files
 COPY package*.json ./
-RUN npm install --production
 
-# Copy application files
+# Install dependencies
+RUN npm install
+
+# Copy source files
+COPY src/ ./src/
 COPY server.js ./
-COPY --from=builder /cow/the.cow ./
-COPY views/ ./views/
 COPY public/ ./public/
+
+# Create bin directory
+RUN mkdir -p bin
+
+# Build COBOL files
+RUN npm run build
 
 # Expose port
 EXPOSE 3000
 
-# Start the application
+# Start server
 CMD ["npm", "start"]

@@ -1,6 +1,23 @@
-/the.cow
-node_modules
-.env
+# Compiled binaries
+/bin/*
+!bin/README.md
+
+# Node.js
+/node_modules
+npm-debug.log*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
 .DS_Store
-.vscode
-.git
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
