@@ -1,8 +1,14 @@
 # COBOL on Wheelchair
 
-A micro web-framework for COBOL that proves old dogs can learn new tricks! 🦿
+A micro web-framework for COBOL that proves old dogs can learn new tricks! ��
 
 ## Features
+
+- **Modern Server Architecture**
+  - Node.js-based server with hot reloading
+  - Development mode with automatic COBOL compilation
+  - Static file serving
+  - Production-ready deployment options
 
 - **Routing System**
   - Path-based routing with variable support (`/user/%id`)
@@ -16,14 +22,17 @@ A micro web-framework for COBOL that proves old dogs can learn new tricks! 🦿
   - URL-decoded parameter support
 
 - **Template Engine**
-  - Basic variable substitution (`{{variable}}`)
-  - HTML template support
+  - Conditional rendering (`{{#if}}`)
+  - Loop support (`{{#each}}`)
+  - Variable substitution (`{{variable}}`)
+  - HTML escaping for security
+  - Array support
   - Clean separation of logic and presentation
 
 ## Prerequisites
 
 * [GNU Cobol](https://sourceforge.net/projects/open-cobol/) (`sudo apt-get install open-cobol`)
-* Apache web server with CGI support
+* Node.js 18 or higher
 * Basic understanding of COBOL (or a sense of adventure!)
 * OR Docker for containerized setup
 
@@ -36,8 +45,17 @@ A micro web-framework for COBOL that proves old dogs can learn new tricks! 🦿
 git clone https://github.com/azac/cobol-on-wheelchair/
 cd cobol-on-wheelchair
 
-# Compile the framework
-./downhill.sh
+# Install dependencies and compile
+npm install
+npm run build
+
+# Start development server with hot reload
+npm run dev
+
+# OR start production server
+npm start
+
+# The application will be available at http://localhost:3000
 ```
 
 ### Docker Installation
@@ -49,41 +67,35 @@ The framework includes Docker support for easy setup and deployment:
 docker build -t cobol-on-wheelchair .
 
 # Run the container
-docker run -p 8080:80 cobol-on-wheelchair
+docker run -p 3000:3000 cobol-on-wheelchair
 
-# The application will be available at http://localhost:8080
+# For development with hot reload and local file mounting
+docker run -p 3000:3000 -v $(pwd):/app cobol-on-wheelchair npm run dev
 ```
 
-For development, you can mount your local directory:
+## Development Features
 
-```bash
-docker run -p 8080:80 -v $(pwd):/cow cobol-on-wheelchair
-```
-
-## Apache Configuration
-
-The framework comes with a default `.htaccess` file for Apache:
-
-```apache
-DirectoryIndex the.cow
-Options +ExecCGI
-AddHandler cgi-script .cow
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule   ^(.*)$  the.cow/$1 [L]
-```
+- Hot reloading of COBOL files
+- Automatic recompilation on changes
+- Development server with live feedback
+- Static file serving from `public` directory
+- Comprehensive error reporting
 
 ## Project Structure
 
 ```
 /
 ├── controllers/    # COBOL logic for handling requests
+├── engine/        # Template engine components
+│   ├── cowtemplate.cbl     # Basic template engine
+│   └── cowtemplateplus.cbl # Enhanced template engine with conditionals and loops
 ├── views/         # Template files (.cow extension)
 ├── config.cbl     # Route definitions
-├── cow.cbl        # Framework core
-├── Dockerfile     # Docker configuration
-└── downhill.sh    # Compilation script
+├── cow.cbl        # Core framework
+├── httphandler.cbl # HTTP request handler
+├── server.js      # Node.js server
+├── package.json   # Node.js dependencies and scripts
+└── Dockerfile     # Docker configuration
 ```
 
 ## Quick Start
@@ -97,9 +109,31 @@ move "sayhello"        to routing-destiny(1).
 
 2. Create a controller in `controllers/sayhello.cbl`:
 ```cobol
-move "username" to COW-varname(1).
-move COW-query-value(1) to COW-varvalue(1).
-call 'cowtemplate' using the-vars "hello.cow".
+identification division.
+program-id. sayhello.
+
+data division.
+working-storage section.
+01 the-vars.
+   03 COW-vars occurs 99 times.
+      05 COW-varname    pic x(99).
+      05 COW-varvalue   pic x(99).
+      05 COW-var-type   pic x(1).
+
+linkage section.
+01 path-values.
+   05 path-query-values occurs 10 times.
+      10 path-query-value-name  pic x(90).
+      10 path-query-value       pic x(90).
+
+procedure division using path-values.
+    move "username" to COW-varname(1).
+    move path-query-value(1) to COW-varvalue(1).
+    move "S" to COW-var-type(1).
+    
+    call 'cowtemplateplus' using the-vars "hello.cow".
+    goback.
+end program sayhello.
 ```
 
 3. Create a template in `views/hello.cow`:
@@ -118,10 +152,16 @@ The framework includes several examples:
 - Path variables (`/showname/Adrian`)
 - Calculator with path params (`/showsum/22/11`)
 - Form handling with POST (`/form`)
+- Advanced template features (`/advanced`)
 
-## Security Note
+## Security Features
 
-This is a proof-of-concept framework. While it's fun and educational, it's not recommended for production use without additional security measures.
+- Automatic HTML escaping in templates
+- Request validation
+- Secure static file serving
+- Production-ready server configuration
+
+While this is still primarily an educational framework, security best practices are followed where possible.
 
 ## Contributing
 
@@ -133,4 +173,24 @@ Contact: adrian.zandberg@gmail.com
 
 ## License
 
-[Include your license information here]
+MIT License
+
+Copyright (c) 2024 Adrian Zandberg
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

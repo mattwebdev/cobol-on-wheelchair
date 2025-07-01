@@ -5,8 +5,7 @@ Welcome to COBOL on Wheelchair (CoW), a micro web framework that brings modern w
 ## Prerequisites
 
 - [GNU COBOL](https://sourceforge.net/projects/open-cobol/) (`sudo apt-get install open-cobol`)
-- Apache web server with CGI support
-- Basic understanding of COBOL
+- Node.js 18 or higher
 - Git (for installation)
 
 ## Installation
@@ -17,35 +16,33 @@ git clone https://github.com/azac/cobol-on-wheelchair
 cd cobol-on-wheelchair
 ```
 
-2. Compile the framework:
+2. Install dependencies and compile:
 ```bash
-./downhill.sh
+npm install
+npm run build
 ```
 
-3. Configure Apache:
-The framework includes a `.htaccess` file for Apache configuration:
-```apache
-DirectoryIndex the.cow
-Options +ExecCGI
-AddHandler cgi-script .cow
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule   ^(.*)$  the.cow/$1 [L]
+3. Start the server:
+```bash
+# Development mode with hot reload
+npm run dev
+
+# Production mode
+npm start
 ```
 
 ### Docker Installation
 
-Alternatively, you can use Docker:
+For containerized deployment:
 ```bash
 # Build the image
 docker build -t cobol-on-wheelchair .
 
 # Run the container
-docker run -p 8080:80 cobol-on-wheelchair
+docker run -p 3000:3000 cobol-on-wheelchair
 
 # For development (with local file mounting)
-docker run -p 8080:80 -v $(pwd):/cow cobol-on-wheelchair
+docker run -p 3000:3000 -v $(pwd):/app cobol-on-wheelchair npm run dev
 ```
 
 ## Project Structure
@@ -55,9 +52,17 @@ docker run -p 8080:80 -v $(pwd):/cow cobol-on-wheelchair
 ├── controllers/    # COBOL logic for handling requests
 ├── views/         # Template files (.cow extension)
 ├── config.cbl     # Route definitions
-├── cow.cbl        # Framework core
-└── downhill.sh    # Compilation script
+├── server.js      # Node.js server
+└── package.json   # Node.js dependencies and scripts
 ```
+
+## Development Workflow
+
+The development server (npm run dev) provides:
+- Automatic recompilation of COBOL files on changes
+- Hot reload of the Node.js server
+- Immediate feedback in the console
+- Static file serving from the `public` directory
 
 ## Routing
 
@@ -242,24 +247,25 @@ Check out the advanced example at `/advanced` which demonstrates:
    - Use consistent naming conventions
 
 3. **Development**
-   - Use Docker for consistent environments
+   - Use the development server with hot reload
    - Test your routes thoroughly
    - Keep backups of your COBOL source files
-   - Monitor your Apache error logs
+   - Monitor the Node.js server logs
 
 ## Troubleshooting
 
 Common issues and solutions:
 
-1. **500 Internal Server Error**
-   - Check Apache error logs
-   - Verify file permissions
-   - Ensure all required files are compiled
+1. **Server Won't Start**
+   - Check Node.js version (18+ required)
+   - Verify all dependencies are installed
+   - Ensure COBOL compilation succeeded
+   - Check port 3000 is available
 
 2. **404 Not Found**
    - Check route definitions in config.cbl
-   - Verify .htaccess is properly configured
-   - Ensure Apache mod_rewrite is enabled
+   - Verify the path in the browser
+   - Check if the controller exists
 
 3. **Template Issues**
    - Verify variable names match exactly

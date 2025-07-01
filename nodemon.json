@@ -1,0 +1,15 @@
+{
+    "watch": [
+        "server.js",
+        "controllers/",
+        "views/"
+    ],
+    "ext": "js,cbl,cow",
+    "events": {
+        "restart": "npm run build"
+    },
+    "ignore": [
+        "node_modules/",
+        "the.cow"
+    ]
+} 

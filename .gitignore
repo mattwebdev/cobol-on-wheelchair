@@ -1,1 +1,6 @@
 /the.cow
+node_modules
+.env
+.DS_Store
+.vscode
+.git
