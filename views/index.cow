@@ -12,7 +12,8 @@
 		<b>Examples</b>
 		<ul>
 			<li><a href="showname/Adrian">Hello World</a>
-			<li><a href="showsum/22/11">Calculator (values from path)</a>	
+			<li><a href="showsum/22/11">Calculator (values from path)</a>
+			<li><a href="form">Form Example (POST handling)</a>
 		</ul>
 	</body>
 </html>		

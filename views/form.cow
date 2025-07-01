@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Form Example</title>
+    </head>
+    <body>
+        <h2>Submit Form Example</h2>
+        <form action="/submit-form" method="POST">
+            <p>
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required>
+            </p>
+            <p>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required>
+            </p>
+            <p>
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="4" cols="50"></textarea>
+            </p>
+            <p>
+                <input type="submit" value="Submit Form">
+            </p>
+        </form>
+    </body>
+</html> 

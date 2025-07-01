@@ -7,78 +7,81 @@
 
        working-storage section.
 
-
        01 newline         pic x   value x'0a'.
 
        01 analyzed-query pic x(1600).  
+       01 request-method pic x(10).
 
        01 the-great-dispatch.
-
           03  nroutes                  pic 99 usage comp-5.
-          03  routing-table            occurs 10 times.
-
+          03  routing-table            occurs 99 times.
             05   routing-pattern   pic x(999).
+            05   routing-method    pic x(10).
             05   routing-destiny   pic x(999).
-
                                                                                
        01 tester         pic x(1) value "n".  
        01 anyfound       pic x(1) value "n".
        01 ctr            pic 99 usage comp-5.
 
        01 the-values.
-
           05 query-values           occurs 10 times.
             10 query-value-name     pic x(90).
             10 query-value          pic x(90).
 
-
+       01 http-request-data.
+           05 method pic x(10).
+           05 query-params.
+               10 param-count pic 9(4).
+               10 params occurs 50 times.
+                   15 param-name pic x(100).
+                   15 param-value pic x(1024).
+           05 body-params.
+               10 body-param-count pic 9(4).
+               10 body-params occurs 50 times.
+                   15 body-param-name pic x(100).
+                   15 body-param-value pic x(1024).
 
        procedure division.
 
-
        copy "config.cbl".
-
 
        perform web-header.
 
+       accept request-method from environment "REQUEST_METHOD"
        call 'getquery' using analyzed-query.
-
+       call 'httphandler' using http-request-data.
 
        perform varying ctr from 1 by 1
              until ctr > nroutes
 
-           call 'checkquery' using analyzed-query routing-pattern(ctr) tester the-values
+           if routing-method(ctr) = spaces or 
+              routing-method(ctr) = request-method
+               call 'checkquery' using 
+                   analyzed-query 
+                   routing-pattern(ctr) 
+                   tester 
+                   the-values
 
-           if (tester="y")
-
-              *> display routing-pattern(ctr) "<hr>" 
-              move "y" to anyfound
-              *> display "ctr:" ctr
-              call routing-destiny(ctr) using the-values
-
+               if (tester="y")
+                   move "y" to anyfound
+                   call routing-destiny(ctr) using 
+                       the-values
+                       http-request-data
+               end-if
            end-if
-
 
        end-perform
 
-
        if (anyfound="n") perform bad-query-error.
-
-       *> if (anyfound="y")  call 'showvars' using the-values.  
-
-        
 
        goback.
 
-
-
  bad-query-error.
-
- display "<b>Cobol-on-Wheelchair error:</b> query pattern not found (<i>" function trim(analyzed-query) "</i>)".
-
+       display "<b>Cobol-on-Wheelchair error:</b> query pattern not found (<i>" 
+           function trim(analyzed-query) "</i>) for method " 
+           function trim(request-method).
 
  web-header.
-
        display
            "content-type: text/html; charset=utf-8"
            newline
