@@ -1,12 +1,12 @@
-# COBOL on Wheelchair 🦿
+# NodeBOL CMS 🚀
 
-> A modern web framework that brings COBOL into the 21st century
+> A modern Content Management System that brings COBOL into the 21st century
 
-COBOL on Wheelchair (CoW) combines the reliability of COBOL with modern web development practices. It features a Node.js-based server, hot reloading, and a powerful template engine.
+NodeBOL CMS combines the reliability of COBOL with modern web development practices. It features a Node.js-based server, hot reloading, and a powerful template engine for building robust content management systems.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/azac/cobol-on-wheelchair/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/azac/nodebol-cms/pulls)
 
 ## Quick Start
 
@@ -14,8 +14,8 @@ COBOL on Wheelchair (CoW) combines the reliability of COBOL with modern web deve
 # Install GnuCOBOL first (see Prerequisites below)
 
 # Get the code
-git clone https://github.com/azac/cobol-on-wheelchair/
-cd cobol-on-wheelchair
+git clone https://github.com/azac/nodebol-cms/
+cd nodebol-cms
 
 # Install and run
 npm install
@@ -46,6 +46,12 @@ npm run dev
 - Array support
 - Clean syntax
 
+### 📝 Content Management
+- Dynamic content rendering
+- Template-based layouts
+- Modular component system
+- Easy content updates
+
 ## Prerequisites
 
 ### Windows
@@ -71,7 +77,7 @@ brew install gnu-cobol
 ## Project Structure
 
 ```
-cobol-on-wheelchair/
+nodebol-cms/
 ├── src/                # Source code
 │   ├── core/          # Framework core
 │   ├── templates/     # Template engine
@@ -99,10 +105,10 @@ npm start
 ### Docker Development
 ```bash
 # Build
-docker build -t cobol-on-wheelchair .
+docker build -t nodebol-cms .
 
 # Run with hot reload
-docker run -p 3000:3000 -v ${PWD}:/app cobol-on-wheelchair npm run dev
+docker run -p 3000:3000 -v ${PWD}:/app nodebol-cms npm run dev
 ```
 
 ## Creating Routes
@@ -159,8 +165,6 @@ end program sayhello.
 - Basic routing: `/`
 - Path variables: `/showname/Adrian`
 - Calculator: `/showsum/22/11`
-- Form handling: `/form`
-- Advanced templates: `/advanced`
 
 ## Documentation
 
@@ -179,8 +183,8 @@ end program sayhello.
 ## Support
 
 - 📫 Email: adrian.zandberg@gmail.com
-- 🐛 Issues: [GitHub Issues](https://github.com/azac/cobol-on-wheelchair/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/azac/cobol-on-wheelchair/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/azac/nodebol-cms/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/azac/nodebol-cms/discussions)
 
 ## License
 
