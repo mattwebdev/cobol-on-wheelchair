@@ -1,239 +1,283 @@
-# Tutorial
+# COBOL on Wheelchair Tutorial
 
-Who says you can't teach a [54-year-old dog](http://www.amazon.com:80/Sams-Teach-Yourself-COBOL-Hours/dp/0672314533) some new tricks? ;)
+Welcome to COBOL on Wheelchair (CoW), a micro web framework that brings modern web development features to COBOL! This tutorial will guide you through setting up and using the framework.
 
-_COBOL on Wheelchair_ is a minimal webframework\^H\^H\^H\^H\^H\^H just a proof of concept. However, it partially works, and it can handle:
+## Prerequisites
 
-- routing;
-- PATH variables (GET and POST on the way...);
-- basic templating.
-
-In order to run _COBOL on Wheelchair_ you will need:
-
-- some http server;
-- [GNU COBOL](https://sourceforge.net/projects/open-cobol/) [`sudo apt-get install open-cobol];
-- ability to run cgi-bin.
+- [GNU COBOL](https://sourceforge.net/projects/open-cobol/) (`sudo apt-get install open-cobol`)
+- Apache web server with CGI support
+- Basic understanding of COBOL
+- Git (for installation)
 
 ## Installation
 
-1. Download
-
+1. Clone the repository:
+```bash
+git clone https://github.com/azac/cobol-on-wheelchair
+cd cobol-on-wheelchair
 ```
-    git clone https://github.com/azac/cobol-on-wheelchair
+
+2. Compile the framework:
+```bash
+./downhill.sh
 ```
 
-2. Configure URL rewriting
-
-_COBOL on Wheelchair_ comes with `.htaccess` file for Apache. If you're on Linux and all goes well, you shoudn't need to worry about that.
-
-```
+3. Configure Apache:
+The framework includes a `.htaccess` file for Apache configuration:
+```apache
 DirectoryIndex the.cow
-	Options +ExecCGI
-	AddHandler cgi-script .cow
-	RewriteEngine on
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule   ^(.*)$  the.cow/$1 [L]
+Options +ExecCGI
+AddHandler cgi-script .cow
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule   ^(.*)$  the.cow/$1 [L]
 ```
 
-3. Compile attached example
+### Docker Installation
 
-```
-    ./downhill.sh
-```
+Alternatively, you can use Docker:
+```bash
+# Build the image
+docker build -t cobol-on-wheelchair .
 
-4. Enjoy
+# Run the container
+docker run -p 8080:80 cobol-on-wheelchair
 
-Point your browser to the appropriate URL. If all goes well, you should see your "Hello world":
-
-@TODO: add the image.
-
-## So how this works?
-
-The directory structure:
-
-```
-	/controllers    <- here lives COBOL logic
-	/views          <- here live web templates
-
-	config.cbl      <- config file, defines routing
-	cow.cbl         <- CoW before compilation
-	downhill.sh     <- compilation script
-	the.cow         <- CoW after compilation
+# For development (with local file mounting)
+docker run -p 8080:80 -v $(pwd):/cow cobol-on-wheelchair
 ```
 
-### Routing
-
-Routing is set in config.cbl file, using two tables. One (_routing-pattern_) holds paths, the other (_routing-destiny_) - names of attached controllers (COBOL subprograms).
-
-First, set the number of routes. It is hard-coded for now.
+## Project Structure
 
 ```
-       move 3 to nroutes.
+/
+├── controllers/    # COBOL logic for handling requests
+├── views/         # Template files (.cow extension)
+├── config.cbl     # Route definitions
+├── cow.cbl        # Framework core
+└── downhill.sh    # Compilation script
 ```
 
-The following code:
+## Routing
 
-```
-       move "/example/path"        to routing-pattern(1).
-       move "myroutine1"           to routing-destiny(1).
-```
+Routes are defined in `config.cbl`. Each route has three components:
+- Pattern: The URL pattern with optional variables
+- Method: The HTTP method (GET, POST, PUT, PATCH, DELETE)
+- Controller: The COBOL program to handle the request
 
-stands for 'send users visiting `server.com/example/path` to "myroutine1" controller'.
+### Basic Routes
 
-You can also accept variables from the path:
+```cobol
+*> Simple route
+move "/"                    to routing-pattern(1).
+move "GET"                  to routing-method(1).
+move "indexweb"             to routing-destiny(1).
 
-```
-       move "/one/%value"          to routing-pattern(2).
-       move "myroutine2"           to routing-destiny(2).
-
-       move "/two/%val1/%val2"     to routing-pattern(3).
-       move "myroutine3"           to routing-destiny(3).
-```
-
-You can set up to 99 routes.
-
-### Controllers
-
-Each route has a separate controller, that holds COBOL logic. They are located in `/controllers` directory.
-
-Basic controller looks like that:
-
+*> Route with variables
+move "/user/%id"            to routing-pattern(2).
+move "GET"                  to routing-method(2).
+move "showuser"             to routing-destiny(2).
 ```
 
-    identification division.
-    program-id. routine1.
+### HTTP Methods
 
-    data division.
-    working-storage section.
+CoW supports all standard HTTP methods:
+```cobol
+*> POST endpoint
+move "/submit"              to routing-pattern(3).
+move "POST"                 to routing-method(3).
+move "handlesubmit"         to routing-destiny(3).
 
-    linkage section.
-
-    01 the-values.
-        05 COW-query-values           occurs 10 times.
-           10 COW-query-value-name     pic x(90).
-           10 COW-query-value          pic x(90).
-
-    procedure division using the-values.
-
-        display "Hello world".
-        goback.
-
-    end program routine1.
+*> PUT endpoint
+move "/update/%id"          to routing-pattern(4).
+move "PUT"                  to routing-method(4).
+move "updateitem"           to routing-destiny(4).
 ```
 
-*the-values* hold information about variables received. At the moment, these come from PATH (GET and POST are on the way). You can access them in the same order they occur in path.
+## Controllers
 
-For instance, inside the "myroutine3" controller, defined in `config.cbl` with:
+Controllers are COBOL programs that handle requests. They receive path variables and request data.
 
-```
-	move "/two/%val1/%val2"     to routing-pattern(3).
-	move "myroutine3"           to routing-destiny(3).
-```
+### Basic Controller
 
-You can access variables %val1 and %val2 by respective indices of *COW-query-value* table:
+```cobol
+identification division.
+program-id. helloworld.
 
-```
-	display "%val1 is: " COW-query-value(1).
-	display "%val2 is: " COW-query-value(2).
-```
+data division.
+working-storage section.
+01 the-vars.
+   03 COW-vars occurs 99 times.
+      05 COW-varname    pic x(99).
+      05 COW-varvalue   pic x(99).
+      05 COW-var-type   pic x(1).
 
-### Templating
+linkage section.
+01 path-values.
+   05 path-query-values occurs 10 times.
+      10 path-query-value-name  pic x(90).
+      10 path-query-value       pic x(90).
 
-Templates are located in `/views` directory. Nothing fancy here, simply put variable {{identifiers}} where they should show up:
+01 http-request-data.
+    05 method                   pic x(10).
+    05 query-params.
+        10 param-count         pic 9(4).
+        10 params occurs 50 times.
+            15 param-name      pic x(100).
+            15 param-value     pic x(1024).
+    05 body-params.
+        10 body-param-count    pic 9(4).
+        10 body-params occurs 50 times.
+            15 body-param-name  pic x(100).
+            15 body-param-value pic x(1024).
 
-```
-
-    <html>
-        <head>
-            <title>
-                Hello World!
-            </title>
-        </head>
-        <body>
-
-            Hello {{username}}, nice to meet you!
-
-        </body>
-    </html>
-```
-
-In order to use the template, you need to prepare variables and call templating engine from the controller. Below is the example of a controller utilizing Hello World template above.
-
-```
-
-    identification division.
-    program-id. helloworld.
-
-    data division.
-    working-storage section.
-
-    01 the-vars.
-        03 COW-vars OCCURS 99 times.
-           05 COW-varname       pic x(99).
-           05 COW-varvalue      pic x(99).
-
-    linkage section.
-
-    01 the-values.
-        05 COW-query-values           occurs 10 times.
-           10 COW-query-value-name     pic x(90).
-           10 COW-query-value          pic x(90).
-
-
-    procedure division using the-values.
-
-        move "username" to COW-varname(1).
-        move COW-query-value(1) to COW-varvalue(1).
-
-        call 'cowtemplate' using the-vars "hello.cow".
-
-    goback.
-    end program helloworld.
-```
-
-The new part is *the-vars* defined in the working-storage section. They will be utilized by the templating engine.
-
-*the-vars* consists of two tables:
-
-- _COW-varname_ - holding variable identifiers for templates;
-- _COW-varvalue_ - holding respective values.
-
-Assuming you want to inform the templating engine that `{{username}}` should equal "Edsger Dijkstra", you simply:
-
-```
+procedure division using path-values http-request-data.
     move "username" to COW-varname(1).
-    move "Edsger Dijkstra" to COW-varvalue(1).
+    move "World" to COW-varvalue(1).
+    move "S" to COW-var-type(1).
+    
+    call 'cowtemplateplus' using the-vars "hello.cow".
+    goback.
+end program helloworld.
 ```
 
-When the templating variables are ready, we can invoke the 'cowtemplate' routine. First argument identifies the templating variables, second informs which template file should be used:
+## Templates
 
-```
-    call 'cowtemplate' using the-vars "hello.cow".
-```
+CoW provides a powerful template engine with various features:
 
-In the helloworld example above {{username}} is set to COW-query-value(1). As the result controller will inject the value received from the PATH into the template.
+### Basic Variable Substitution
 
-```
-	myserver.com/hello/Edsger
+```html
+<h1>Hello, {{username}}!</h1>
 ```
 
-will therefore produce:
+### Conditional Rendering
 
+```html
+{{#if logged_in}}
+    <p>Welcome back, {{username}}!</p>
+{{#else}}
+    <p>Please log in.</p>
+{{/if}}
 ```
-	Hello Edsger, nice to meet you!
+
+### Loops/Iteration
+
+```html
+<ul>
+    {{#each items}}
+        <li>{{name}}: ${{price}}</li>
+    {{/each}}
+</ul>
 ```
 
-## Is it safe?
+### Working with Arrays
 
-Of course not! I hacked this together over one night, and without any real knowledge of the language. I suppose the code is utterly horrible.
+In your controller:
+```cobol
+*> Define array
+move "items" to COW-varname(1).
+move "A" to COW-var-type(1).
+move 2 to COW-array-size(1).
 
-Btw, you should probably delete all .cbl files after final compilation.
+*> Set array items
+move "items[0].name" to COW-varname(2).
+move "Item 1" to COW-varvalue(2).
+move "S" to COW-var-type(2).
 
-## Why?
+move "items[1].name" to COW-varname(3).
+move "Item 2" to COW-varvalue(3).
+move "S" to COW-var-type(3).
+```
 
-Why not?:)
+### HTML Safety
+
+All variables are automatically HTML-escaped to prevent XSS attacks. Special characters (`<`, `>`, `&`, `"`, `'`) are properly encoded.
+
+## Form Handling
+
+### HTML Form
+```html
+<form action="/submit" method="POST">
+    <input type="text" name="username" required>
+    <input type="email" name="email" required>
+    <button type="submit">Submit</button>
+</form>
+```
+
+### Processing Form Data
+```cobol
+*> In your controller
+perform varying i from 1 by 1 until i > body-param-count
+    if body-param-name(i) = "username"
+        move body-param-value(i) to username
+    end-if
+    if body-param-name(i) = "email"
+        move body-param-value(i) to email
+    end-if
+end-perform
+```
+
+## Complete Example
+
+Check out the advanced example at `/advanced` which demonstrates:
+- Conditional rendering
+- Array iteration
+- Form handling
+- HTML safety
+- Styling
+
+## Best Practices
+
+1. **Security**
+   - Always validate user input
+   - Use HTML escaping (automatic in templates)
+   - Don't expose sensitive information in URLs
+
+2. **Organization**
+   - Keep controllers focused and small
+   - Use meaningful route names
+   - Comment your code
+   - Use consistent naming conventions
+
+3. **Development**
+   - Use Docker for consistent environments
+   - Test your routes thoroughly
+   - Keep backups of your COBOL source files
+   - Monitor your Apache error logs
+
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **500 Internal Server Error**
+   - Check Apache error logs
+   - Verify file permissions
+   - Ensure all required files are compiled
+
+2. **404 Not Found**
+   - Check route definitions in config.cbl
+   - Verify .htaccess is properly configured
+   - Ensure Apache mod_rewrite is enabled
+
+3. **Template Issues**
+   - Verify variable names match exactly
+   - Check for missing closing tags
+   - Ensure proper nesting of conditionals
 
 ## Questions?
 
-email: adrian.zandberg@gmail.com
+For support or questions:
+- Email: adrian.zandberg@gmail.com
+- GitHub Issues: [Create an issue](https://github.com/azac/cobol-on-wheelchair/issues)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues for:
+- Bug fixes
+- New features
+- Documentation improvements
+- Example code
+
+Remember to delete all .cbl files after final compilation for security.
