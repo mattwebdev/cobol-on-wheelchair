@@ -1,4 +1,4 @@
-move 8 to nroutes.
+move 12 to nroutes.
 
 *> Default route (GET /)
 move "/"                           to routing-pattern(1).
@@ -39,3 +39,22 @@ move "deleteitem"                  to routing-destiny(7).
 move "/advanced"                   to routing-pattern(8).
 move "GET"                         to routing-method(8).
 move "advanced"                    to routing-destiny(8).
+
+*> CMS Routes
+*> GET/POST /login - Login form and authentication
+move "/login"                      to routing-pattern(9).
+move "GET"                         to routing-method(9).
+move "login"                       to routing-destiny(9).
+
+move "/login"                      to routing-pattern(10).
+move "POST"                        to routing-method(10).
+move "login"                       to routing-destiny(10).
+
+*> GET/POST /admin - Admin dashboard
+move "/admin"                      to routing-pattern(11).
+move "GET"                         to routing-method(11).
+move "admin"                       to routing-destiny(11).
+
+move "/admin"                      to routing-pattern(12).
+move "POST"                        to routing-method(12).
+move "admin"                       to routing-destiny(12).

@@ -1,19 +1,169 @@
-<html>
-	<head>
-		<title>
-			Hello CoW.
-		</title>
-	</head>
-	<body>
-		<img src='images/logo.png' hspace=30 align=left>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NodeBOL CMS - Welcome</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<style>
+		.hero-section {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: white;
+			padding: 4rem 0;
+		}
+		.feature-card {
+			border: none;
+			border-radius: 15px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+			transition: transform 0.3s ease;
+		}
+		.feature-card:hover {
+			transform: translateY(-5px);
+		}
+		.feature-icon {
+			font-size: 3rem;
+			color: #667eea;
+		}
+		.btn-cms {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			border: none;
+			border-radius: 25px;
+			padding: 0.75rem 2rem;
+			font-weight: 600;
+		}
+		.btn-cms:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+		}
+	</style>
+</head>
+<body>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				<i class="fas fa-cube me-2"></i>NodeBOL CMS
+			</a>
+			<div class="navbar-nav ms-auto">
+				<a class="nav-link" href="/admin">Admin</a>
+				<a class="nav-link" href="/login">Login</a>
+			</div>
+		</div>
+	</nav>
 
-		<h2>Cobol on Wheelchair says hello!</h2>
-		<P>
-		<b>Examples</b>
-		<ul>
-			<li><a href="showname/Adrian">Hello World</a>
-			<li><a href="showsum/22/11">Calculator (values from path)</a>
-			<li><a href="form">Form Example (POST handling)</a>
-		</ul>
-	</body>
+	<!-- Hero Section -->
+	<section class="hero-section">
+		<div class="container text-center">
+			<h1 class="display-4 mb-4">Welcome to NodeBOL CMS</h1>
+			<p class="lead mb-4">A modern Content Management System built with COBOL and Node.js</p>
+			<div class="d-flex justify-content-center gap-3">
+				<a href="/admin" class="btn btn-light btn-cms">
+					<i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+				</a>
+				<a href="/login" class="btn btn-outline-light btn-cms">
+					<i class="fas fa-sign-in-alt me-2"></i>Login
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features Section -->
+	<section class="py-5">
+		<div class="container">
+			<h2 class="text-center mb-5">CMS Features</h2>
+			<div class="row">
+				<div class="col-md-4 mb-4">
+					<div class="card feature-card h-100 text-center p-4">
+						<div class="card-body">
+							<i class="fas fa-file-alt feature-icon mb-3"></i>
+							<h5 class="card-title">Content Management</h5>
+							<p class="card-text">Create and manage blog posts, pages, and custom content types with our intuitive interface.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="card feature-card h-100 text-center p-4">
+						<div class="card-body">
+							<i class="fas fa-images feature-icon mb-3"></i>
+							<h5 class="card-title">Media Library</h5>
+							<p class="card-text">Upload, organize, and manage media files with support for images, documents, and more.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="card feature-card h-100 text-center p-4">
+						<div class="card-body">
+							<i class="fas fa-users feature-icon mb-3"></i>
+							<h5 class="card-title">User Management</h5>
+							<p class="card-text">Manage users, roles, and permissions with our comprehensive user management system.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Technology Stack -->
+	<section class="py-5 bg-light">
+		<div class="container">
+			<h2 class="text-center mb-5">Technology Stack</h2>
+			<div class="row text-center">
+				<div class="col-md-3 mb-4">
+					<i class="fas fa-code fa-3x text-primary mb-3"></i>
+					<h5>COBOL</h5>
+					<p>Reliable business logic</p>
+				</div>
+				<div class="col-md-3 mb-4">
+					<i class="fab fa-node-js fa-3x text-success mb-3"></i>
+					<h5>Node.js</h5>
+					<p>Modern web server</p>
+				</div>
+				<div class="col-md-3 mb-4">
+					<i class="fas fa-palette fa-3x text-warning mb-3"></i>
+					<h5>Bootstrap 5</h5>
+					<p>Responsive design</p>
+				</div>
+				<div class="col-md-3 mb-4">
+					<i class="fas fa-cogs fa-3x text-info mb-3"></i>
+					<h5>Express</h5>
+					<p>Web framework</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Demo Links -->
+	<section class="py-5">
+		<div class="container">
+			<h2 class="text-center mb-5">Try It Out</h2>
+			<div class="row justify-content-center">
+				<div class="col-md-8 text-center">
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<a href="/showname/World" class="btn btn-outline-primary btn-lg w-100">
+								<i class="fas fa-hand-wave me-2"></i>Hello World
+							</a>
+						</div>
+						<div class="col-md-6 mb-3">
+							<a href="/showsum/10/20" class="btn btn-outline-success btn-lg w-100">
+								<i class="fas fa-calculator me-2"></i>Calculator
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="bg-dark text-white py-4">
+		<div class="container text-center">
+			<p>&copy; 2024 NodeBOL CMS. Built with ❤️ using COBOL and Node.js.</p>
+			<p><small>Default admin credentials: admin / password</small></p>
+		</div>
+	</footer>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>		

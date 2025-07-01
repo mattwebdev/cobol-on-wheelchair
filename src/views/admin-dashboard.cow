@@ -1,0 +1,169 @@
+{{layout "default"}}
+
+<div class="row">
+    <!-- Statistics Cards -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stats-card h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            Blog Posts
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">{{blog_count}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file-alt fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stats-card h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            Pages
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">{{page_count}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stats-card h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            Users
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">{{user_count}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card stats-card h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">
+                            Media Files
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold">{{media_count}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-images fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/content/create" class="btn btn-primary btn-block">
+                            <i class="fas fa-plus me-2"></i>New Blog Post
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/content/page/create" class="btn btn-success btn-block">
+                            <i class="fas fa-file me-2"></i>New Page
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/media/upload" class="btn btn-info btn-block">
+                            <i class="fas fa-upload me-2"></i>Upload Media
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a href="/admin/users/create" class="btn btn-warning btn-block">
+                            <i class="fas fa-user-plus me-2"></i>Add User
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Activity</h6>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-file-alt text-primary me-2"></i>
+                            New blog post published
+                        </div>
+                        <small class="text-muted">2 hours ago</small>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-images text-info me-2"></i>
+                            Media file uploaded
+                        </div>
+                        <small class="text-muted">4 hours ago</small>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-user text-warning me-2"></i>
+                            New user registered
+                        </div>
+                        <small class="text-muted">1 day ago</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- System Information -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">System Information</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Current User:</strong> {{current_user}}</p>
+                        <p><strong>NodeBOL CMS Version:</strong> 1.0.0</p>
+                        <p><strong>Server:</strong> Node.js + COBOL</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Database:</strong> In-Memory</p>
+                        <p><strong>Template Engine:</strong> Enhanced COW</p>
+                        <p><strong>Last Updated:</strong> {{current_date}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

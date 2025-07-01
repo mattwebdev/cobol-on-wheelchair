@@ -1,0 +1,218 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "email": "admin@nodebol.com",
+      "password": "hashed_password_123",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "lastLogin": "2024-01-15T10:30:00.000Z"
+    },
+    {
+      "id": "2",
+      "username": "editor",
+      "email": "editor@nodebol.com",
+      "password": "hashed_password_456",
+      "role": "editor",
+      "status": "active",
+      "createdAt": "2024-01-02T00:00:00.000Z",
+      "lastLogin": "2024-01-14T15:45:00.000Z"
+    },
+    {
+      "id": "3",
+      "username": "author",
+      "email": "author@nodebol.com",
+      "password": "hashed_password_789",
+      "role": "author",
+      "status": "active",
+      "createdAt": "2024-01-03T00:00:00.000Z",
+      "lastLogin": "2024-01-13T09:15:00.000Z"
+    }
+  ],
+  "content": [
+    {
+      "id": "1",
+      "contentType": "blog_post",
+      "title": "Welcome to NodeBOL CMS",
+      "content": "This is the first blog post in our new NodeBOL CMS system.",
+      "author": "admin",
+      "status": "published",
+      "slug": "welcome-to-nodebol-cms",
+      "tags": ["cms", "cobol", "nodejs"],
+      "createdAt": "2024-01-10T00:00:00.000Z",
+      "updatedAt": "2024-01-10T00:00:00.000Z",
+      "publishedAt": "2024-01-10T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "contentType": "blog_post",
+      "title": "COBOL and Modern Web Development",
+      "content": "Exploring how COBOL can be integrated with modern web technologies.",
+      "author": "editor",
+      "status": "draft",
+      "slug": "cobol-and-modern-web-development",
+      "tags": ["cobol", "web-development", "integration"],
+      "createdAt": "2024-01-12T00:00:00.000Z",
+      "updatedAt": "2024-01-12T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "contentType": "page",
+      "title": "About NodeBOL CMS",
+      "content": "NodeBOL CMS is a modern content management system that combines the reliability of COBOL with the flexibility of Node.js.",
+      "author": "admin",
+      "status": "published",
+      "slug": "about",
+      "createdAt": "2024-01-05T00:00:00.000Z",
+      "updatedAt": "2024-01-05T00:00:00.000Z",
+      "publishedAt": "2024-01-05T00:00:00.000Z"
+    }
+  ],
+  "media": [
+    {
+      "id": "1",
+      "filename": "logo.png",
+      "originalName": "nodebol-logo.png",
+      "filePath": "uploads/logo.png",
+      "fileSize": 24576,
+      "mimeType": "image/png",
+      "uploadedBy": "admin",
+      "status": "active",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "filename": "hero-image.jpg",
+      "originalName": "hero-banner.jpg",
+      "filePath": "uploads/hero-image.jpg",
+      "fileSize": 102400,
+      "mimeType": "image/jpeg",
+      "uploadedBy": "editor",
+      "status": "active",
+      "createdAt": "2024-01-08T00:00:00.000Z"
+    }
+  ],
+  "contentTypes": [
+    {
+      "name": "blog_post",
+      "label": "Blog Post",
+      "description": "A blog post with title, content, and metadata",
+      "fields": [
+        {
+          "name": "title",
+          "label": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 200
+        },
+        {
+          "name": "content",
+          "label": "Content",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "name": "author",
+          "label": "Author",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "label": "URL Slug",
+          "type": "text",
+          "required": false,
+          "maxLength": 100
+        },
+        {
+          "name": "tags",
+          "label": "Tags",
+          "type": "array",
+          "required": false
+        },
+        {
+          "name": "status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "options": ["draft", "published", "archived"]
+        }
+      ]
+    },
+    {
+      "name": "page",
+      "label": "Page",
+      "description": "A static page with title and content",
+      "fields": [
+        {
+          "name": "title",
+          "label": "Title",
+          "type": "text",
+          "required": true,
+          "maxLength": 200
+        },
+        {
+          "name": "content",
+          "label": "Content",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "name": "author",
+          "label": "Author",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "slug",
+          "label": "URL Slug",
+          "type": "text",
+          "required": true,
+          "maxLength": 100
+        },
+        {
+          "name": "status",
+          "label": "Status",
+          "type": "select",
+          "required": true,
+          "options": ["draft", "published", "archived"]
+        }
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "name": "blog-post.cow",
+      "content": "<!DOCTYPE html>\n<html>\n<head>\n    <title>{{title}}</title>\n</head>\n<body>\n    <article>\n        <h1>{{title}}</h1>\n        <p>By {{author}}</p>\n        <div class=\"content\">{{content}}</div>\n        {{#if tags}}\n        <div class=\"tags\">\n            {{#each tags}}\n            <span class=\"tag\">{{this}}</span>\n            {{/each}}\n        </div>\n        {{/if}}\n    </article>\n</body>\n</html>"
+    },
+    {
+      "name": "page.cow",
+      "content": "<!DOCTYPE html>\n<html>\n<head>\n    <title>{{title}}</title>\n</head>\n<body>\n    <div class=\"page\">\n        <h1>{{title}}</h1>\n        <div class=\"content\">{{content}}</div>\n    </div>\n</body>\n</html>"
+    },
+    {
+      "name": "admin-dashboard.cow",
+      "content": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Admin Dashboard</title>\n</head>\n<body>\n    <div class=\"dashboard\">\n        <h1>Welcome, {{username}}!</h1>\n        <div class=\"stats\">\n            <div class=\"stat\">\n                <h3>Blog Posts</h3>\n                <p>{{blogCount}}</p>\n            </div>\n            <div class=\"stat\">\n                <h3>Pages</h3>\n                <p>{{pageCount}}</p>\n            </div>\n            <div class=\"stat\">\n                <h3>Users</h3>\n                <p>{{userCount}}</p>\n            </div>\n            <div class=\"stat\">\n                <h3>Media</h3>\n                <p>{{mediaCount}}</p>\n            </div>\n        </div>\n    </div>\n</body>\n</html>"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session1",
+      "userId": "1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "ipAddress": "127.0.0.1",
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "expiresAt": "2024-01-15T18:30:00.000Z"
+    }
+  ],
+  "statistics": {
+    "blogCount": 2,
+    "pageCount": 1,
+    "userCount": 3,
+    "mediaCount": 2,
+    "totalContent": 3,
+    "publishedContent": 2,
+    "draftContent": 1
+  }
+} 
