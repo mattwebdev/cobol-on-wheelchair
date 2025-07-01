@@ -1,6 +1,6 @@
 # COBOL on Wheelchair
 
-A micro web-framework for COBOL that proves old dogs can learn new tricks! ��
+A micro web-framework for COBOL that proves old dogs can learn new tricks! 🦿
 
 ## Features
 
@@ -31,10 +31,18 @@ A micro web-framework for COBOL that proves old dogs can learn new tricks! ��
 
 ## Prerequisites
 
+### Linux/macOS
 * [GNU Cobol](https://sourceforge.net/projects/open-cobol/) (`sudo apt-get install open-cobol`)
 * Node.js 18 or higher
 * Basic understanding of COBOL (or a sense of adventure!)
-* OR Docker for containerized setup
+
+### Windows
+* [GnuCOBOL for Windows](https://sourceforge.net/projects/gnucobol/files/gnucobol/)
+  - Download and run the installer (e.g., `GnuCOBOL-3.1.2-64bit-MinGW-setup.exe`)
+  - Add GnuCOBOL's bin directory to your PATH (usually `C:\GnuCOBOL\bin`)
+* Node.js 18 or higher from [nodejs.org](https://nodejs.org/)
+* Windows Terminal or PowerShell
+* Docker Desktop (optional, for containerized setup)
 
 ## Installation
 
@@ -63,6 +71,8 @@ npm start
 The framework includes Docker support for easy setup and deployment:
 
 ```bash
+# Ensure Docker Desktop is running first!
+
 # Build the Docker image
 docker build -t cobol-on-wheelchair .
 
@@ -70,6 +80,11 @@ docker build -t cobol-on-wheelchair .
 docker run -p 3000:3000 cobol-on-wheelchair
 
 # For development with hot reload and local file mounting
+# On Windows PowerShell:
+docker run -p 3000:3000 -v ${PWD}:/app cobol-on-wheelchair npm run dev
+# On Windows CMD:
+docker run -p 3000:3000 -v %cd%:/app cobol-on-wheelchair npm run dev
+# On Linux/macOS:
 docker run -p 3000:3000 -v $(pwd):/app cobol-on-wheelchair npm run dev
 ```
 
@@ -97,6 +112,31 @@ docker run -p 3000:3000 -v $(pwd):/app cobol-on-wheelchair npm run dev
 ├── package.json   # Node.js dependencies and scripts
 └── Dockerfile     # Docker configuration
 ```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **COBOL Compiler Not Found**
+   - **Windows**: Ensure GnuCOBOL is installed and added to PATH
+   - **Linux**: Install with `sudo apt-get install open-cobol`
+   - **macOS**: Install with Homebrew: `brew install gnu-cobol`
+
+2. **Build Fails**
+   - Check if `cobc` is available in your terminal/command prompt
+   - Ensure all .cbl files are in their correct directories
+   - Try running `npm run clean` before `npm run build`
+
+3. **Docker Issues**
+   - Ensure Docker Desktop is running
+   - On Windows, use PowerShell or CMD with correct volume mount syntax
+   - Check Docker Desktop settings if volume mounting fails
+
+4. **Server Won't Start**
+   - Verify Node.js version (18+ required)
+   - Check if port 3000 is available
+   - Ensure COBOL compilation succeeded
+   - Look for the compiled `the.cow` binary
 
 ## Quick Start
 
