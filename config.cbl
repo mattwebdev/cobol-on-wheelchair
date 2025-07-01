@@ -1,4 +1,4 @@
-move 7 to nroutes.
+move 8 to nroutes.
 
 *> Default route (GET /)
 move "/"                           to routing-pattern(1).
@@ -34,3 +34,8 @@ move "updateitem"                  to routing-destiny(6).
 move "/delete/%id"                 to routing-pattern(7).
 move "DELETE"                      to routing-method(7).
 move "deleteitem"                  to routing-destiny(7).
+
+*> GET /advanced - Advanced template example
+move "/advanced"                   to routing-pattern(8).
+move "GET"                         to routing-method(8).
+move "advanced"                    to routing-destiny(8).

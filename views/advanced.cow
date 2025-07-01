@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Advanced Template Example</title>
+        <style>
+            table { border-collapse: collapse; width: 100%; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to {{site_name}}</h1>
+
+        {{#if logged_in}}
+            <p>Welcome back, {{username}}!</p>
+            
+            {{#if is_admin}}
+                <div class="admin-panel">
+                    <h2>Admin Panel</h2>
+                    <p>You have administrative privileges.</p>
+                </div>
+            {{/if}}
+
+            <h2>Your Items</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+                {{#each items}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{description}}</td>
+                        <td>${{price}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{#else}}
+            <p>Please <a href="/login">log in</a> to view your items.</p>
+        {{/if}}
+
+        <footer>
+            <p>&copy; {{current_year}} {{company_name}}</p>
+        </footer>
+    </body>
+</html> 
